@@ -41,10 +41,7 @@ from keras.initializers import Constant
 from keras.layers import  Layer
 from sklearn.preprocessing import minmax_scale
 ##############################
-#kidtx = pd.read_csv('brca_Surv_data_stage_age.csv',usecols=['MEgreenyellow',	'MEgreen','MEturquoise'	,'MEmagenta','MEbrown',	'MEred',	'MEpink',	'MEblack',	'MEpurple',	'MEblue',	'MEyellow',	'MEgrey','erged_data5_stage','erged_data6_Age','V1','erged_data33'])
-kidtx = pd.read_csv('brca_Surv_data_methylation_mRNA_lmqcm.csv')
-dataX1 =kidtx.drop(["Unnamed: 0","ID","V1","erged_data33"], axis = 1).values
-y = np.transpose(np.array((kidtx["V1"], kidtx["erged_data33"]))) # V1=time; erged_data33=status
+
 
 kidtx = pd.read_csv('brca_Surv_data_methylation_mRNA_all_lmqcm.csv')
 dataX1 =kidtx.drop(["Unnamed: 0","ID","V2.x","V3.x"], axis = 1).values
@@ -800,7 +797,7 @@ for train_index, val_index in kf.split(x):
     pylab.plot(hist.history['loss'])
     print([np.exp(K.get_value(log_var[0]))**0.5 for log_var in model.layers[-1].log_vars])
     
-
+    predicted_main, predicted_aux = dense1_layer_model.predict([x_test,x_test,y_test, ystatus2_test],verbose=1)
     prediction =predicted_main+0*predicted_aux
     
     c_index2=c_index3( np.asarray(ytime_test),np.asarray(prediction), np.asarray(ystatus_test))
